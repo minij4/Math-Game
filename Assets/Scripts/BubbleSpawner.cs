@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BubbleSpawner : MonoBehaviour
+public class BubbleSpawner : TaskGenerating
 {
     [SerializeField]
     private GameObject[] bubbleReference;
@@ -42,6 +42,7 @@ public class BubbleSpawner : MonoBehaviour
 
             spawnedBubble = Instantiate(bubbleReference[randomIndex]);
             spawnedBubble.transform.SetParent(GameObject.Find("Canvas").transform);
+            spawnedBubble.transform.position = new Vector3(0, 0, 0);
 
             // left side
             if (randomSide == 0)
@@ -51,7 +52,7 @@ public class BubbleSpawner : MonoBehaviour
                 Text answer = answerComponent.GetComponent<Text>();
                 answer.text = randomAnswer.ToString();
           
-                spawnedBubble.transform.position = new Vector3(leftPos.position.x, leftPos.position.y, 0);
+                spawnedBubble.transform.position = new Vector3(leftPos.position.x, leftPos.position.y, leftPos.position.z);
                 spawnedBubble.transform.localScale = new Vector3(85, 85, 85);
             }
             else //right side
@@ -61,10 +62,15 @@ public class BubbleSpawner : MonoBehaviour
                 Text answer = answerComponent.GetComponent<Text>();
                 answer.text = randomAnswer.ToString();
 
-                spawnedBubble.transform.position = new Vector3(rightPos.position.x, rightPos.position.y, 0);
+                spawnedBubble.transform.position = new Vector3(rightPos.position.x, rightPos.position.y, rightPos.position.z);
                 spawnedBubble.transform.localScale = new Vector3(85, 85, 85);
                                 
             }
+
+            GameObject component = spawnedBubble.transform.GetChild(0).gameObject;
+            Button myButton = component.GetComponent<Button>();
+
+            myButton.onClick.AddListener((UnityEngine.Events.UnityAction) NewTask);
         }
     }
 }
