@@ -32,41 +32,37 @@ public class TaskGenerating : MonoBehaviour
 
     public void NewTask()
     {
-        num1 = UnityEngine.Random.Range(0, 50);
-        num2 = UnityEngine.Random.Range(0, 50);
+        num1 = UnityEngine.Random.Range(1, 50);
+        num2 = UnityEngine.Random.Range(1, 50);
         randomSign = UnityEngine.Random.Range(0, 4);
 
         switch (randomSign)
         {
             case 0:
-                answer = (double)num1 + num2;
-                t = num1.ToString() + " + " + num2.ToString();
+                answer = num1 + num2;
+                t = $"{num1} + {num2}";
                 break;
             case 1:
-                answer = (double)num1 - num2;
-                t = num1.ToString() + " - " + num2.ToString();
+                answer = num1 - num2;
+                t = $"{num1} - {num2}";
                 break;
             case 2:
-                answer = (double)num1 / num2;
-
-                while (answer / 2 != 0 || (int)answer == 0 || num1 == 0 || num2 == 0)
+                do
                 {
-                    num1 = UnityEngine.Random.Range(0, 50);
-                    num2 = UnityEngine.Random.Range(0, 50);
+                    num1 = UnityEngine.Random.Range(1, 50);
+                    num2 = UnityEngine.Random.Range(1, 50);
                     answer = (double)num1 / num2;
-                }
-                t = num1.ToString() + " / " + num2.ToString();
+                } while (answer % 2 != 0 || (int)answer == 0);
+                t = $"{num1} / {num2}";
                 break;
             case 3:
-                answer = (double)num1 * num2;
-
-                while (answer > 100)
+                do
                 {
-                    num1 = UnityEngine.Random.Range(0, 50);
-                    num2 = UnityEngine.Random.Range(0, 50);
+                    num1 = UnityEngine.Random.Range(1, 50);
+                    num2 = UnityEngine.Random.Range(1, 50);
                     answer = num1 * num2;
-                }
-                t = num1.ToString() + " x " + num2.ToString();
+                } while (answer > 100);
+                t = $"{num1} x {num2}";
                 break;
         }
 
