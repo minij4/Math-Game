@@ -9,7 +9,8 @@ using UnityEngine.UI;
 public class TaskGenerating : MonoBehaviour
 {
     private GameObject TaskField;
-   
+    private Animator anim;
+
     private int num1, num2;
 
     
@@ -22,8 +23,23 @@ public class TaskGenerating : MonoBehaviour
     void Start()
     {
         GlobalVariables.isAnswer = false;
+        anim = GetComponent<Animator>();
+
         Debug.Log("Started");
         NewTask();
+    }
+
+    public void DeleteBubbles()
+    {
+        foreach (GameObject bubble in GlobalVariables.spawnedBubbles.ToArray())
+        {
+            //anim.SetBool(WALK_ANIMATION, true);
+            anim.Play("Explode");
+            Destroy(bubble, anim.GetCurrentAnimatorStateInfo(0).length);
+
+            GlobalVariables.spawnedBubbles.Remove(bubble);
+            GlobalVariables.restart = true;
+        }
     }
     public void CheckAnswer()
     {
@@ -31,17 +47,31 @@ public class TaskGenerating : MonoBehaviour
         GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
         Text userAnswer = button.GetComponent<Text>();
 
+        Debug.Log(userAnswer.text.ToString());
 
-        //Debug.Log(userAnswer.text.ToString());
+        //tikrina ar teisingas atsakymas
+        if (GlobalVariables.answer == Convert.ToInt32(userAnswer.text))
+        {
+            Debug.Log("Atsakymas teisingas");
+            GlobalVariables.isAnswer = false;
 
-        // tikrina ar teisingas atsakymas
-        //if (answer == Convert.ToInt32(userAnswer.text))
-        //{
-        //    Debug.Log("Atsakymas teisingas");
-        //    isAnswer = false;
-        //}
+            //BubbleSpawner spawn = new BubbleSpawner();
+            //spawn.Start();
 
-        NewTask();
+            BubbleSpawner bubble = new BubbleSpawner();
+
+            DeleteBubbles();
+            NewTask();
+        } else
+        {
+            Debug.Log("Atsakymas neteisingas");
+            GlobalVariables.isAnswer = false;
+
+            BubbleSpawner bubble = new BubbleSpawner();
+
+            DeleteBubbles();
+            NewTask();
+        }
     }
     public void NewTask()
     {

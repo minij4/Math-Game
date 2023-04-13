@@ -1,7 +1,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,9 +21,9 @@ public class BubbleSpawner : TaskGenerating
     private int randomIndex;
     private int randomSide;
 
-    private int randomAnswerIndex;
     private int randomAnswer;
     private int[] answers;
+   
 
     private int difficulty;
 
@@ -31,12 +33,22 @@ public class BubbleSpawner : TaskGenerating
     // Start is called before the first frame update
     void Start()
     {
+        GlobalVariables.spawnedBubbles = new List<GameObject>();
+        GlobalVariables.restart = false;
+
         difficulty = 3;
         answers = new int[difficulty];
         generateAnswers();
         StartCoroutine(SpawnBubbles());
     }
+    void Update()
+    {
+        if (GlobalVariables.restart)
+        {
+            Start();
+        }
 
+    }
     public void generateAnswers()
     {
         for (int i = 0; i < difficulty; i++)
@@ -56,24 +68,26 @@ public class BubbleSpawner : TaskGenerating
             }
         }
     }
+
     IEnumerator SpawnBubbles()
     {
         for (int i = 0; i < difficulty; i++)
         {
-            yield return new WaitForSeconds(Random.Range(1, 5));
-
+            yield return new WaitForSeconds(1);
+             
             randomIndex = Random.Range(0, bubbleReference.Length);
             randomSide = Random.Range(0, 2);
 
-
-            //randomAnswerIndex = Random.Range(0, difficulty);
             randomAnswer = answers[i];
 
 
-
+            // spawnina burbulus
             spawnedBubble = Instantiate(bubbleReference[randomIndex]);
             spawnedBubble.transform.SetParent(GameObject.Find("Canvas").transform);
             spawnedBubble.transform.position = new Vector3(0, 0, 0);
+
+            // patalpina visus burbulus i list
+            GlobalVariables.spawnedBubbles.Add(spawnedBubble);
 
             // left side
             if (randomSide == 0)
