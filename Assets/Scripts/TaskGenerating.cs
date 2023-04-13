@@ -8,12 +8,13 @@ using UnityEngine.UI;
 
 public class TaskGenerating : MonoBehaviour
 {
-    private GameObject TaskField;
-    private Animator anim;
 
+    private GameObject TaskField;
+
+    private Animator anim;
     private int num1, num2;
 
-    
+
     private int randomSign;
 
     private string t;
@@ -23,19 +24,22 @@ public class TaskGenerating : MonoBehaviour
     void Start()
     {
         GlobalVariables.isAnswer = false;
-        anim = GetComponent<Animator>();
 
         Debug.Log("Started");
         NewTask();
     }
-
     public void DeleteBubbles()
     {
         foreach (GameObject bubble in GlobalVariables.spawnedBubbles.ToArray())
         {
-            //anim.SetBool(WALK_ANIMATION, true);
+            StopCoroutine(BubbleSpawner.bubbleSpawnCoroutine);
+
+            anim = bubble.GetComponent<Animator>();
+            anim.speed = 0.6f;
             anim.Play("Explode");
-            Destroy(bubble, anim.GetCurrentAnimatorStateInfo(0).length);
+            Destroy(bubble, 0.6f);
+
+
 
             GlobalVariables.spawnedBubbles.Remove(bubble);
             GlobalVariables.restart = true;
@@ -55,10 +59,8 @@ public class TaskGenerating : MonoBehaviour
             Debug.Log("Atsakymas teisingas");
             GlobalVariables.isAnswer = false;
 
-            //BubbleSpawner spawn = new BubbleSpawner();
+            BubbleSpawner spawn = new BubbleSpawner();
             //spawn.Start();
-
-            BubbleSpawner bubble = new BubbleSpawner();
 
             DeleteBubbles();
             NewTask();
@@ -67,7 +69,7 @@ public class TaskGenerating : MonoBehaviour
             Debug.Log("Atsakymas neteisingas");
             GlobalVariables.isAnswer = false;
 
-            BubbleSpawner bubble = new BubbleSpawner();
+            BubbleSpawner spawn = new BubbleSpawner();
 
             DeleteBubbles();
             NewTask();

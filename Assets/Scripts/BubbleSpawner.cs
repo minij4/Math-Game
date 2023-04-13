@@ -10,6 +10,8 @@ using UnityEngine.UI;
 
 public class BubbleSpawner : TaskGenerating
 {
+    public static IEnumerator bubbleSpawnCoroutine;
+
     [SerializeField]
     private GameObject[] bubbleReference;
 
@@ -28,7 +30,7 @@ public class BubbleSpawner : TaskGenerating
     private int difficulty;
 
 
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +41,10 @@ public class BubbleSpawner : TaskGenerating
         difficulty = 3;
         answers = new int[difficulty];
         generateAnswers();
-        StartCoroutine(SpawnBubbles());
+
+        bubbleSpawnCoroutine = SpawnBubbles();
+
+        StartCoroutine(bubbleSpawnCoroutine);
     }
     void Update()
     {
@@ -49,6 +54,7 @@ public class BubbleSpawner : TaskGenerating
         }
 
     }
+
     public void generateAnswers()
     {
         for (int i = 0; i < difficulty; i++)
