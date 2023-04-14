@@ -10,6 +10,7 @@ public class TaskGenerating : MonoBehaviour
 {
 
     private GameObject TaskField;
+    private GameObject ScoreField;
 
     private Animator anim;
     private int num1, num2;
@@ -62,6 +63,15 @@ public class TaskGenerating : MonoBehaviour
             BubbleSpawner spawn = new BubbleSpawner();
             //spawn.Start();
 
+
+            //score counting
+            ScoreField = GameObject.Find("Score");
+            Text score = ScoreField.GetComponent<Text>();
+            int newScore = Convert.ToInt32(score.text) + 10;
+            score.text = newScore.ToString();
+
+            Debug.Log(newScore);
+
             DeleteBubbles();
             NewTask();
         } else
@@ -73,6 +83,13 @@ public class TaskGenerating : MonoBehaviour
 
             DeleteBubbles();
             NewTask();
+
+
+            //hearts
+            if(GlobalVariables.hearts > 1)
+            {
+                GlobalVariables.hearts--;
+            }
         }
     }
     public void NewTask()

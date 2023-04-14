@@ -7,7 +7,10 @@ public class GlobalVariables : MonoBehaviour
     public static double answer;
     public static bool isAnswer;
     public static bool restart;
+    public static int hearts;
     public static List<GameObject> spawnedBubbles;
+
+   
 
     // Start is called before the first frame update
     void Start()
