@@ -2,8 +2,8 @@
 
 # Smash Math
 
-### Creating math game with <img style="width:100%;" src="Unity.svg"><img>
-### To learn <img style="width:20px;" src="Unity.svg"><img> and <img style="width:20px;" src="csharp.png"><img> basics
+### Creating math game with <img style="width:40px;" src="Unity.svg.png"><img>
+### To learn <img style="width:40px;" src="Unity.svg.png"><img> and <img style="width:40px;" src="csharp.png"><img> basics
 
 <br>
 
