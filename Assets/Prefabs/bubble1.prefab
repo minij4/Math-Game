@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 5686502326533326162}
   - component: {fileID: 5686502326533326161}
   - component: {fileID: 5686502326533326160}
-  m_Layer: 0
+  - component: {fileID: -559284153149320331}
+  m_Layer: 6
   m_Name: bubble1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,17 +141,17 @@ Rigidbody2D:
   m_GameObject: {fileID: 5686502326533326174}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!222 &5686502326533326160
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -159,6 +160,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5686502326533326174}
   m_CullTransparentMesh: 1
+--- !u!114 &-559284153149320331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5686502326533326174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f56ddcca6bc6e54196a9e1f45f5b76a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5686502327172496132
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +184,7 @@ GameObject:
   - component: {fileID: 5686502327172496184}
   - component: {fileID: 5686502327172496135}
   - component: {fileID: 5686502327172496134}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: answer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
