@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TaskGenerating : MonoBehaviour
@@ -52,6 +53,8 @@ public class TaskGenerating : MonoBehaviour
         GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
         Text userAnswer = button.GetComponent<Text>();
 
+        GameObject Spawner = GameObject.Find("Spawner");
+
         Debug.Log(userAnswer.text.ToString());
 
         //tikrina ar teisingas atsakymas
@@ -60,9 +63,11 @@ public class TaskGenerating : MonoBehaviour
             Debug.Log("Atsakymas teisingas");
             GlobalVariables.isAnswer = false;
 
-            BubbleSpawner spawn = new BubbleSpawner();
+            //BubbleSpawner spawn = new BubbleSpawner();
             //spawn.Start();
 
+            Spawner.SetActive(false);
+            Spawner.SetActive(true);
 
             //score counting
             ScoreField = GameObject.Find("Score");
@@ -79,7 +84,9 @@ public class TaskGenerating : MonoBehaviour
             Debug.Log("Atsakymas neteisingas");
             GlobalVariables.isAnswer = false;
 
-            BubbleSpawner spawn = new BubbleSpawner();
+            //BubbleSpawner spawn = new BubbleSpawner();
+            Spawner.SetActive(false);
+            Spawner.SetActive(true);
 
             DeleteBubbles();
             NewTask();
@@ -89,6 +96,9 @@ public class TaskGenerating : MonoBehaviour
             if(GlobalVariables.hearts > 1)
             {
                 GlobalVariables.hearts--;
+            } else
+            {
+                SceneManager.LoadScene("GameOver");
             }
         }
     }
