@@ -1,4 +1,4 @@
-
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +63,35 @@ public class BubbleSpawner : TaskGenerating
             //generuojamas atsitiktinis atsakymu masyvas
             if (GlobalVariables.isAnswer)
             {
-                answers[i] = Random.Range(0, 100);
+                int diff = Random.Range(0, 10);
+                int sign = Random.Range(0, 2);
+                int answ = 0;
+
+                if (sign == 0)
+                {
+                    answ = (int)GlobalVariables.answer + diff;
+                }
+                else if (sign == 1)
+                {
+                    answ = (int)GlobalVariables.answer - diff;
+                } 
+                // tikrinimas kad nesikartotu vienodi atsakymai
+                while (answers.Contains(answ))
+                {
+                    diff = Random.Range(0, 10);
+                    sign = Random.Range(0, 2);
+
+                    if (sign == 0)
+                    {
+                        answ = (int)GlobalVariables.answer + diff;
+                    }
+                    else if (sign == 1)
+                    {
+                        answ = (int)GlobalVariables.answer - diff;
+                    }
+                }
+                answers[i] = answ;
+
             }
             else
             {
@@ -73,8 +101,18 @@ public class BubbleSpawner : TaskGenerating
                GlobalVariables.isAnswer = true;
             }
         }
+        shuffle(answers);
     }
-
+    public void shuffle(int[] array)
+    {
+        for (int i = array.Length - 1; i > 0; i--)
+        {
+            var j = Mathf.FloorToInt(Random.value * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
     IEnumerator SpawnBubbles()
     {
         for (int i = 0; i < difficulty; i++)
@@ -104,7 +142,7 @@ public class BubbleSpawner : TaskGenerating
                 answer.text = randomAnswer.ToString();
 
                 spawnedBubble.transform.position = new Vector3(leftPos.position.x, leftPos.position.y, leftPos.position.z);
-                spawnedBubble.transform.localScale = new Vector3(85, 85, 85);
+                spawnedBubble.transform.localScale = new Vector3(60, 60, 60);
             }
             else //right side
             {
@@ -114,7 +152,7 @@ public class BubbleSpawner : TaskGenerating
                 answer.text = randomAnswer.ToString();
 
                 spawnedBubble.transform.position = new Vector3(rightPos.position.x, rightPos.position.y, rightPos.position.z);
-                spawnedBubble.transform.localScale = new Vector3(85, 85, 85);
+                spawnedBubble.transform.localScale = new Vector3(60, 60, 60);
 
             }
 
