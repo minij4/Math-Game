@@ -2,7 +2,7 @@
 
 # Smash Math
 
-### Creating math game with <img style="width:40px;" src="Unity.svg.png"><img>
+### Creating math game with <img style="width:60px;" src="Unity.svg.png"><img>
 ### To learn Unity and C# basics
 
 <br>
