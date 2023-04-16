@@ -72,10 +72,16 @@ public class TaskGenerating : MonoBehaviour
             //score counting
             ScoreField = GameObject.Find("Score");
             Text score = ScoreField.GetComponent<Text>();
+
             int newScore = Convert.ToInt32(score.text) + 10;
+
             score.text = newScore.ToString();
 
-            Debug.Log(newScore);
+            //padidina burbulu kieki zaidime
+            if (newScore % 50 == 0 && (3 + newScore / 50) < 11)
+            {
+                GlobalVariables.difficulty = 3 + newScore / 50;
+            }
 
             DeleteBubbles();
             NewTask();
@@ -104,10 +110,24 @@ public class TaskGenerating : MonoBehaviour
     }
     public void NewTask()
     {
-        // generuojamas uzdavinys
+        
+       
+        // Veiksmų lygiai
+
+        ScoreField = GameObject.Find("Score");
+        Text score = ScoreField.GetComponent<Text>();
+
+        int Score = Convert.ToInt32(score.text);
+
+        if(Score % 100 == 0 && Score / 100 < 4)
+        {
+            GlobalVariables.level = 1 + Score / 100;
+        }
+
+        // // generuojamas uzdavinys
         num1 = UnityEngine.Random.Range(1, 50);
         num2 = UnityEngine.Random.Range(1, 50);
-        randomSign = UnityEngine.Random.Range(0, 4);
+        randomSign = UnityEngine.Random.Range(0, GlobalVariables.level);
 
         switch (randomSign)
         {

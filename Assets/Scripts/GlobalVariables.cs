@@ -9,8 +9,10 @@ public class GlobalVariables : MonoBehaviour
     public static bool restart;
     public static int hearts;
     public static List<GameObject> spawnedBubbles;
+    public static int difficulty = 3;
+    public static int level = 1;
 
-   
+
 
     // Start is called before the first frame update
     void Start()

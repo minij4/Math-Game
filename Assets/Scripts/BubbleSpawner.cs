@@ -27,19 +27,13 @@ public class BubbleSpawner : TaskGenerating
     private int[] answers;
    
 
-    private int difficulty;
-
-
-    
-
     // Start is called before the first frame update
     void Start()
     {
         GlobalVariables.spawnedBubbles = new List<GameObject>();
         GlobalVariables.restart = false;
 
-        difficulty = 3;
-        answers = new int[difficulty];
+        answers = new int[GlobalVariables.difficulty];
         generateAnswers();
 
         bubbleSpawnCoroutine = SpawnBubbles();
@@ -57,7 +51,7 @@ public class BubbleSpawner : TaskGenerating
 
     public void generateAnswers()
     {
-        for (int i = 0; i < difficulty; i++)
+        for (int i = 0; i < GlobalVariables.difficulty; i++)
         {
             //tikrinimas ar yra ekrane teisingas atsakymas
             //generuojamas atsitiktinis atsakymu masyvas
@@ -115,9 +109,9 @@ public class BubbleSpawner : TaskGenerating
     }
     IEnumerator SpawnBubbles()
     {
-        for (int i = 0; i < difficulty; i++)
+        for (int i = 0; i < GlobalVariables.difficulty; i++)
         {
-            yield return new WaitForSeconds(1);
+            yield return 
              
             randomIndex = Random.Range(0, bubbleReference.Length);
             randomSide = Random.Range(0, 2);
