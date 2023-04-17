@@ -104,6 +104,8 @@ public class TaskGenerating : MonoBehaviour
                 GlobalVariables.hearts--;
             } else
             {
+                GlobalVariables.level = 1;
+                GlobalVariables.difficulty = 3;
                 SceneManager.LoadScene("GameOver");
             }
         }
