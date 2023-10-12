@@ -391,6 +391,8 @@ GameObject:
   - component: {fileID: 923459241}
   - component: {fileID: 923459240}
   - component: {fileID: 923459239}
+  - component: {fileID: 923459243}
+  - component: {fileID: 923459242}
   m_Layer: 5
   m_Name: RestartButton
   m_TagString: Untagged
@@ -415,8 +417,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 250}
+  m_AnchoredPosition: {x: 0, y: -20.89}
+  m_SizeDelta: {x: 315.84, y: 315.84}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &923459239
 MonoBehaviour:
@@ -464,7 +466,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 998158706}
         m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: PlayGame
+        m_MethodName: Restart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -494,7 +496,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3dee9c91a55f1d6459e7f70cd15dcd1b, type: 3}
+  m_Sprite: {fileID: 1496882582, guid: 0465939662d94694e852d962dd143908, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -512,6 +514,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 923459237}
   m_CullTransparentMesh: 1
+--- !u!114 &923459242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923459237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933361867fc8dcd4ea36a3b7604e007d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &923459243
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923459237}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8cd0c5555ab8ca3459214c79b2aea4ad, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &998158705
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,22 +3,30 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using static UnityEngine.AsyncOperation;
 
 // PERVADINTI BOOBLE labiau specifiskai 
 
 public class MenuController : MonoBehaviour
 {
     private Animator anim;
-    private GameObject Bobble;
+    private GameObject Menu1;
 
     public void Play()
     {
-        //Bobble = GameObject.Find("Bobble");
+        
+        Menu1 = GameObject.Find("Menu1");
 
-        //anim = Bobble.GetComponent<Animator>();
-        //anim.speed = 0.6f;
+        anim = Menu1.GetComponent<Animator>();
+      
+        anim.SetBool("explode", true);
         //anim.Play("Explode");
+    }
 
-        SceneManager.LoadScene("GameScene");
+    public void LoadNewScene()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
     }
 }
