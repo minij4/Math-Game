@@ -5,27 +5,34 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using static UnityEngine.AsyncOperation;
+using UnityEngine.EventSystems;
 
-// PERVADINTI BOOBLE labiau specifiskai 
 
 public class MenuController : MonoBehaviour
 {
     private Animator anim;
-    private GameObject Menu1;
+    private GameObject Menu;
 
     public void Play()
     {
-        
-        Menu1 = GameObject.Find("Menu1");
+        string name = EventSystem.current.currentSelectedGameObject.name;
+        Menu = GameObject.Find(name);
 
-        anim = Menu1.GetComponent<Animator>();
-      
+        anim = Menu.GetComponent<Animator>();
+
         anim.SetBool("explode", true);
         //anim.Play("Explode");
     }
 
-    public void LoadNewScene()
+    public void LoadGame1()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+    }
+    public void LoadGame2()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Game2Scene");
+    }
+    public void LoadGame3()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
     }

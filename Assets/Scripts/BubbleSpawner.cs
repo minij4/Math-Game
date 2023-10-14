@@ -14,6 +14,8 @@ public class BubbleSpawner : TaskGenerating
 
     [SerializeField]
     private GameObject[] bubbleReference;
+ 
+ 
 
     private GameObject spawnedBubble;
 
