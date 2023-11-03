@@ -26,9 +26,22 @@ public class TaskGenerating : MonoBehaviour
     void Start()
     {
         GlobalVariables.isAnswer = false;
+        
 
         Debug.Log("Started");
-        NewTask();
+        GameStart();
+        
+    }
+    public void GameStart()
+    {
+        int gameId = GameManager.Instance.GameIndex;
+        if (gameId == 1)
+        {
+            Game1();
+        } else if(gameId == 2)
+        {
+            Game2();
+        }
     }
     public void DeleteBubbles()
     {
@@ -47,7 +60,7 @@ public class TaskGenerating : MonoBehaviour
             GlobalVariables.restart = true;
         }
     }
-    public void CheckAnswer()
+    public void CheckAnswerForGame1()
     {
         // pasirinktas atsakymo onjektas
         GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
@@ -84,7 +97,7 @@ public class TaskGenerating : MonoBehaviour
             }
 
             DeleteBubbles();
-            NewTask();
+            GameStart();
         } else
         {
             Debug.Log("Atsakymas neteisingas");
@@ -95,73 +108,161 @@ public class TaskGenerating : MonoBehaviour
             Spawner.SetActive(true);
 
             DeleteBubbles();
-            NewTask();
+            GameStart();
 
 
             //hearts
-            if(GlobalVariables.hearts > 1)
+            if (GlobalVariables.hearts > 1)
             {
                 GlobalVariables.hearts--;
             } else
             {
-                GlobalVariables.level = 1;
                 GlobalVariables.difficulty = 3;
                 SceneManager.LoadScene("GameOver");
             }
         }
     }
-    public void NewTask()
+    public void CheckAnswerForGame2()
     {
-        
-       
-        // Veiksmų lygiai
+        // pasirinktas atsakymo onjektas
+        GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        Text userAnswer = button.GetComponent<Text>();
 
-        ScoreField = GameObject.Find("Score");
-        Text score = ScoreField.GetComponent<Text>();
+        GameObject Spawner = GameObject.Find("Spawner");
 
-        int Score = Convert.ToInt32(score.text);
+        Debug.Log(userAnswer.text.ToString());
 
-        if(Score % 100 == 0 && Score / 100 < 4)
+        //tikrina ar teisingas atsakymas
+        if (GlobalVariables.sign == 0 && GlobalVariables.answer > Convert.ToInt32(userAnswer.text) ||
+            GlobalVariables.sign == 1 && GlobalVariables.answer < Convert.ToInt32(userAnswer.text) ||
+            GlobalVariables.sign == 2 && GlobalVariables.answer == Convert.ToInt32(userAnswer.text))
         {
-            GlobalVariables.level = 1 + Score / 100;
+            Debug.Log("Atsakymas teisingas");
+            GlobalVariables.isAnswer = false;
+
+            //BubbleSpawner spawn = new BubbleSpawner();
+            //spawn.Start();
+
+            Spawner.SetActive(false);
+            Spawner.SetActive(true);
+
+            //score counting
+            ScoreField = GameObject.Find("Score");
+            Text score = ScoreField.GetComponent<Text>();
+
+            int newScore = Convert.ToInt32(score.text) + 10;
+
+            score.text = newScore.ToString();
+
+            DeleteBubbles();
+            GameStart();
         }
+        else
+        {
+            Debug.Log("Atsakymas neteisingas");
+            GlobalVariables.isAnswer = false;
 
+            //BubbleSpawner spawn = new BubbleSpawner();
+            Spawner.SetActive(false);
+            Spawner.SetActive(true);
+
+            DeleteBubbles();
+            GameStart();
+
+
+            //hearts
+            if (GlobalVariables.hearts > 1)
+            {
+                GlobalVariables.hearts--;
+            }
+            else
+            {
+                GlobalVariables.difficulty = 3;
+                SceneManager.LoadScene("GameOver");
+            }
+        }
+    }
+    public void Game1()
+    {
+    
+            ScoreField = GameObject.Find("Score");
+            Text score = ScoreField.GetComponent<Text>();
+
+            int Score = Convert.ToInt32(score.text);
+
+            // // generuojamas uzdavinys
+            num1 = UnityEngine.Random.Range(1, GlobalVariables.range);
+            num2 = UnityEngine.Random.Range(1, GlobalVariables.range);
+            randomSign = UnityEngine.Random.Range(0, 4);
+
+            switch (randomSign)
+            {
+                case 0:
+                    GlobalVariables.answer = num1 + num2;
+                    t = $"{num1} + {num2}";
+                    break;
+                case 1:
+                    GlobalVariables.answer = num1 - num2;
+                    t = $"{num1} - {num2}";
+                    break;
+                case 2:
+                    do
+                    {
+                        num1 = UnityEngine.Random.Range(1, GlobalVariables.range);
+                        num2 = UnityEngine.Random.Range(1, GlobalVariables.range);
+                        GlobalVariables.answer = (double)num1 / num2;
+                    } while (GlobalVariables.answer % 2 != 0 || (int)GlobalVariables.answer == 0);
+                    t = $"{num1} / {num2}";
+                    break;
+                case 3:
+                    do
+                    {
+                        num1 = UnityEngine.Random.Range(1, GlobalVariables.range);
+                        num2 = UnityEngine.Random.Range(1, GlobalVariables.range);
+                        GlobalVariables.answer = num1 * num2;
+                    } while (GlobalVariables.answer > 100);
+                    t = $"{num1} x {num2}";
+                    break;
+            }
+
+            Debug.Log(GlobalVariables.answer);
+            Debug.Log(GameManager.Instance.GameIndex);
+        
+        
+
+        // isvedamas uzdavinys i ekrana
+        TaskField = GameObject.Find("Task");
+        Text task = TaskField.GetComponent<Text>();
+        task.text = t;
+
+    }
+    public void Game2()
+    {
         // // generuojamas uzdavinys
-        num1 = UnityEngine.Random.Range(1, 50);
-        num2 = UnityEngine.Random.Range(1, 50);
-        randomSign = UnityEngine.Random.Range(0, GlobalVariables.level);
-
+        num1 = UnityEngine.Random.Range(1, GlobalVariables.range);
+        
+        randomSign = UnityEngine.Random.Range(0, 3);
+        GlobalVariables.answer = num1;
         switch (randomSign)
         {
             case 0:
-                GlobalVariables.answer = num1 + num2;
-                t = $"{num1} + {num2}";
+                
+                t = $"{num1} > ?";
                 break;
             case 1:
-                GlobalVariables.answer = num1 - num2;
-                t = $"{num1} - {num2}";
+                t = $"{num1} < ?";
                 break;
             case 2:
-                do
-                {
-                    num1 = UnityEngine.Random.Range(1, 50);
-                    num2 = UnityEngine.Random.Range(1, 50);
-                    GlobalVariables.answer = (double)num1 / num2;
-                } while (GlobalVariables.answer % 2 != 0 || (int)GlobalVariables.answer == 0);
-                t = $"{num1} / {num2}";
-                break;
-            case 3:
-                do
-                {
-                    num1 = UnityEngine.Random.Range(1, 50);
-                    num2 = UnityEngine.Random.Range(1, 50);
-                    GlobalVariables.answer = num1 * num2;
-                } while (GlobalVariables.answer > 100);
-                t = $"{num1} x {num2}";
-                break;
+                t = $"{num1} = ?";
+
+                break;   
         }
+        GlobalVariables.sign = randomSign;
 
         Debug.Log(GlobalVariables.answer);
+        Debug.Log(GameManager.Instance.GameIndex);
+
+
 
         // isvedamas uzdavinys i ekrana
         TaskField = GameObject.Find("Task");

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
@@ -15,8 +14,15 @@ public class MenuController : MonoBehaviour
 
     public void Play()
     {
-        string name = EventSystem.current.currentSelectedGameObject.name;
-        Menu = GameObject.Find(name);
+        int selectedGame =
+          int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
+
+        GameManager.Instance.GameIndex = selectedGame;
+        GlobalVariables.gameId = selectedGame;
+
+        Debug.Log(selectedGame);
+
+        Menu = GameObject.Find(selectedGame.ToString());
 
         anim = Menu.GetComponent<Animator>();
 
@@ -24,15 +30,7 @@ public class MenuController : MonoBehaviour
         //anim.Play("Explode");
     }
 
-    public void LoadGame1()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
-    }
-    public void LoadGame2()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Game2Scene");
-    }
-    public void LoadGame3()
+    public void LoadGame()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
     }

@@ -36,7 +36,17 @@ public class BubbleSpawner : TaskGenerating
         GlobalVariables.restart = false;
 
         answers = new int[GlobalVariables.difficulty];
-        generateAnswers();
+
+        int gameId = GameManager.Instance.GameIndex;
+
+
+        if (gameId == 1)
+        {
+            generateAnswersForGame1();
+        } else if(gameId == 2)
+        {
+            generateAnswersForGame2();
+        }
 
         bubbleSpawnCoroutine = SpawnBubbles();
 
@@ -51,7 +61,7 @@ public class BubbleSpawner : TaskGenerating
 
     }
 
-    public void generateAnswers()
+    public void generateAnswersForGame1()
     {
         for (int i = 0; i < GlobalVariables.difficulty; i++)
         {
@@ -95,6 +105,64 @@ public class BubbleSpawner : TaskGenerating
                 answers[i] = (int)GlobalVariables.answer;
                 
                GlobalVariables.isAnswer = true;
+            }
+        }
+        shuffle(answers);
+    }
+    public void generateAnswersForGame2()
+    {
+        bool biggerAnsw = false;
+        bool lowerAnsw = false;
+        bool equalAnsw = false;
+
+        for (int i = 0; i < GlobalVariables.difficulty; i++)
+        {
+            //tikrinimas ar yra ekrane teisingas atsakymas
+            //generuojamas atsitiktinis atsakymu masyvas
+            if (GlobalVariables.isAnswer)
+            {
+                int diff = Random.Range(0, 10);
+                int sign = GlobalVariables.sign;
+                int answ = 0;
+
+                if (lowerAnsw == false)
+                {
+                    answ = (int)GlobalVariables.answer - diff;
+                    lowerAnsw = true;
+                }
+                else if (biggerAnsw == false)
+                {
+                    answ = (int)GlobalVariables.answer + diff;
+                    biggerAnsw = true;
+                } else if(equalAnsw == false)
+                {
+                    answ = (int)GlobalVariables.answer;
+                    equalAnsw = true;
+                }
+                // tikrinimas kad nesikartotu vienodi atsakymai
+                while (answers.Contains(answ))
+                {
+                    diff = Random.Range(0, 10);
+                    sign = Random.Range(0, 2);
+
+                    if (sign == 0)
+                    {
+                        answ = (int)GlobalVariables.answer + diff;
+                    }
+                    else if (sign == 1)
+                    {
+                        answ = (int)GlobalVariables.answer - diff;
+                    }
+                }
+                answers[i] = answ;
+
+            }
+            else
+            {
+                //Debug.Log(answer);
+                answers[i] = (int)GlobalVariables.answer;
+
+                GlobalVariables.isAnswer = true;
             }
         }
         shuffle(answers);
@@ -155,8 +223,15 @@ public class BubbleSpawner : TaskGenerating
             GameObject component = spawnedBubble.transform.GetChild(0).gameObject;
             Button myButton = component.GetComponent<Button>();
 
-
-            myButton.onClick.AddListener((UnityEngine.Events.UnityAction)CheckAnswer);
+            int gameId = GameManager.Instance.GameIndex;
+            ///////////////// answer buttonn click
+            if (gameId == 1)
+            {
+                myButton.onClick.AddListener((UnityEngine.Events.UnityAction)CheckAnswerForGame1);
+            } else if(gameId == 2)
+            {
+                myButton.onClick.AddListener((UnityEngine.Events.UnityAction)CheckAnswerForGame2);
+            }
         }
     }
 }

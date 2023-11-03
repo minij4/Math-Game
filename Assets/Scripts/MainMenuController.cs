@@ -10,7 +10,6 @@ public class MainMenuController : MonoBehaviour
 
     public void PlayGame()
     {
-
         PlayButton = GameObject.Find("PlayButton");
 
         anim = PlayButton.GetComponent<Animator>();
@@ -28,6 +27,6 @@ public class MainMenuController : MonoBehaviour
     }
     public void LoadMenuScene()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LevelScene");
     }
 }
