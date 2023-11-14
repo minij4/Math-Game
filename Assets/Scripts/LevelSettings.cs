@@ -24,7 +24,8 @@ public class LevelSettings : MonoBehaviour
         Button = GameObject.Find(EventSystem.current.currentSelectedGameObject.name);
         Debug.Log(EventSystem.current.currentSelectedGameObject.name);
         anim = Button.GetComponent<Animator>();
-        GlobalVariables.range = 100;
+        GlobalVariables.range = 9;
+        GlobalVariables.level = 1;
         PlayGame();
 
     }
@@ -33,7 +34,8 @@ public class LevelSettings : MonoBehaviour
         Button = GameObject.Find(EventSystem.current.currentSelectedGameObject.name);
 
         anim = Button.GetComponent<Animator>();
-        GlobalVariables.range = 1000;
+        GlobalVariables.range = 100;
+        GlobalVariables.level = 2;
         PlayGame();
     }
     public void level3()
@@ -41,7 +43,8 @@ public class LevelSettings : MonoBehaviour
         Button = GameObject.Find(EventSystem.current.currentSelectedGameObject.name);
 
         anim = Button.GetComponent<Animator>();
-        GlobalVariables.range = 5000;
+        GlobalVariables.range = 1000;
+        GlobalVariables.level = 3;
         PlayGame();
     }
     public void level4()
@@ -50,6 +53,7 @@ public class LevelSettings : MonoBehaviour
 
         anim = Button.GetComponent<Animator>();
         GlobalVariables.range = 10000;
+        GlobalVariables.level = 4 ;
         PlayGame();
     }
 }

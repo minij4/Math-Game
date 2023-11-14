@@ -12,7 +12,6 @@ public class TaskGenerating : MonoBehaviour
 
     private GameObject TaskField;
     private GameObject ScoreField;
-
     private Animator anim;
     private int num1, num2;
 
@@ -35,12 +34,35 @@ public class TaskGenerating : MonoBehaviour
     public void GameStart()
     {
         int gameId = GameManager.Instance.GameIndex;
+
+        ScoreField = GameObject.Find("Score");
+        Text score = ScoreField.GetComponent<Text>();
+
+        int Score = Convert.ToInt32(score.text);
+        // lvl set
+        if (Score  >= 250 && Score < 500)
+        {
+            GlobalVariables.lvl =2;
+            // pirmos klasės antro lygio skaičių diapazono nustatymas.
+            if (GlobalVariables.level == 1)
+            {
+                GlobalVariables.range = 20;
+            }
+        } else
+        {
+            GlobalVariables.lvl = 3;
+        }
+        
+
         if (gameId == 1)
         {
             Game1();
         } else if(gameId == 2)
         {
             Game2();
+        } else if(gameId == 3)
+        {
+            Game3();
         }
     }
     public void DeleteBubbles()
@@ -182,6 +204,70 @@ public class TaskGenerating : MonoBehaviour
             }
         }
     }
+    public void CheckAnswerForGame3()
+    {
+        // pasirinktas atsakymo onjektas
+        GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        Text userAnswer = button.GetComponent<Text>();
+
+        GameObject Spawner = GameObject.Find("Spawner");
+
+        Debug.Log(userAnswer.text.ToString());
+
+        //tikrina ar teisingas atsakymas
+        if (GlobalVariables.answer2 == userAnswer.text)
+        {
+            Debug.Log("Atsakymas teisingas");
+            GlobalVariables.isAnswer = false;
+
+            //BubbleSpawner spawn = new BubbleSpawner();
+            //spawn.Start();
+
+            Spawner.SetActive(false);
+            Spawner.SetActive(true);
+
+            //score counting
+            ScoreField = GameObject.Find("Score");
+            Text score = ScoreField.GetComponent<Text>();
+
+            int newScore = Convert.ToInt32(score.text) + 10;
+
+            score.text = newScore.ToString();
+
+            ////padidina burbulu kieki zaidime
+            //if (newScore % 50 == 0 && (3 + newScore / 50) < 11)
+            //{
+            //    GlobalVariables.difficulty = 3 + newScore / 50;
+            //}
+
+            DeleteBubbles();
+            GameStart();
+        }
+        else
+        {
+            Debug.Log("Atsakymas neteisingas");
+            GlobalVariables.isAnswer = false;
+
+            //BubbleSpawner spawn = new BubbleSpawner();
+            Spawner.SetActive(false);
+            Spawner.SetActive(true);
+
+            DeleteBubbles();
+            GameStart();
+
+
+            //hearts
+            if (GlobalVariables.hearts > 1)
+            {
+                GlobalVariables.hearts--;
+            }
+            else
+            {
+                GlobalVariables.difficulty = 3;
+                SceneManager.LoadScene("GameOver");
+            }
+        }
+    }
     public void Game1()
     {
     
@@ -263,6 +349,64 @@ public class TaskGenerating : MonoBehaviour
         Debug.Log(GameManager.Instance.GameIndex);
 
 
+
+        // isvedamas uzdavinys i ekrana
+        TaskField = GameObject.Find("Task");
+        Text task = TaskField.GetComponent<Text>();
+        task.text = t;
+
+    }
+    public void Game3()
+    {
+        if(GlobalVariables.level == 2)
+        {
+            int randomCondition;
+
+            randomCondition = UnityEngine.Random.Range(0, 10);
+
+            switch (randomCondition)
+            {
+                case 0: t = "Pusė = ?";
+                    GlobalVariables.answer2 = "1/2";
+                    break;
+                case 1: t = "Trečdalis = ?";
+                    GlobalVariables.answer2 = "1/3";
+                    break;
+                case 2: t = "Ketvirtadalis = ?";
+                    GlobalVariables.answer2 = "1/4";
+                    break;
+                case 3: t = "Vienetas = ?";
+                    GlobalVariables.answer2 = "1";
+                    break;
+                case 4:
+                    t = "Penktadalis = ?";
+                    GlobalVariables.answer2 = "1/5";
+                    break;
+                case 5:
+                    t = "Šeštadalis = ?";
+                    GlobalVariables.answer2 = "1/6";
+                    break;
+                case 6:
+                    t = "Septintadalis = ?";
+                    GlobalVariables.answer2 = "1/7";
+                    break;
+                case 7:
+                    t = "Aštuntadalis = ?";
+                    GlobalVariables.answer2 = "1/8";
+                    break;
+                case 8:
+                    t = "Devintadalis = ?";
+                    GlobalVariables.answer2 = "1/9";
+                    break;
+                case 9:
+                    t = "Viena dešimtoji = ?";
+                    GlobalVariables.answer2 = "1/10";
+                    break;
+
+            }
+
+            Debug.Log("answer2 == " + GlobalVariables.answer2);
+        }
 
         // isvedamas uzdavinys i ekrana
         TaskField = GameObject.Find("Task");

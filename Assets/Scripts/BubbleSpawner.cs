@@ -25,8 +25,10 @@ public class BubbleSpawner : TaskGenerating
     private int randomIndex;
     private int randomSide;
 
-    private int randomAnswer;
+    private string randomAnswer;
+
     private int[] answers;
+    private string[] answers2;
    
 
     // Start is called before the first frame update
@@ -36,6 +38,7 @@ public class BubbleSpawner : TaskGenerating
         GlobalVariables.restart = false;
 
         answers = new int[GlobalVariables.difficulty];
+        answers2 = new string[GlobalVariables.difficulty];
 
         int gameId = GameManager.Instance.GameIndex;
 
@@ -46,6 +49,9 @@ public class BubbleSpawner : TaskGenerating
         } else if(gameId == 2)
         {
             generateAnswersForGame2();
+        } else if(gameId == 3)
+        {
+            generateAnswersForGame3();
         }
 
         bubbleSpawnCoroutine = SpawnBubbles();
@@ -167,6 +173,100 @@ public class BubbleSpawner : TaskGenerating
         }
         shuffle(answers);
     }
+    public void generateAnswersForGame3()
+    {
+        Debug.Log("generating answers");
+        for (int i = 0; i < GlobalVariables.difficulty; i++)
+        {
+            string answ2="";
+            //tikrinimas ar yra ekrane teisingas atsakymas
+            //generuojamas atsitiktinis atsakymu masyvas
+            if (GlobalVariables.isAnswer)
+            {
+                int rand = Random.Range(0, 10);
+
+                switch(rand)
+                {
+                    case 0:
+                        answ2 = "1/2";
+                    break;
+                    case 1:
+                        answ2 = "1/3";
+                        break;
+                    case 2:
+                        answ2 = "1/4";
+                        break;
+                    case 3:
+                        answ2 = "1";
+                        break;
+                    case 4:
+                        answ2 = "1/5";
+                        break;
+                    case 5:
+                        answ2 = "1/6";
+                        break;
+                    case 6:
+                        answ2 = "1/7";
+                        break;
+                    case 7:
+                        answ2 = "1/8";
+                        break;
+                    case 8:
+                        answ2 = "1/9";
+                        break;
+                    case 9:
+                        answ2 = "1/10";
+                        break;
+                }
+                while (answers2.Contains(answ2))
+                {
+                    rand = Random.Range(0, 10);
+                    switch (rand)
+                    {
+                        case 0:
+                            answ2 = "1/2";
+                            break;
+                        case 1:
+                            answ2 = "1/3";
+                            break;
+                        case 2:
+                            answ2 = "1/4";
+                            break;
+                        case 3:
+                            answ2 = "1";
+                            break;
+                        case 4:
+                            answ2 = "1/5";
+                            break;
+                        case 5:
+                            answ2 = "1/6";
+                            break;
+                        case 6:
+                            answ2 = "1/7";
+                            break;
+                        case 7:
+                            answ2 = "1/8";
+                            break;
+                        case 8:
+                            answ2 = "1/9";
+                            break;
+                        case 9:
+                            answ2 = "1/10";
+                            break;
+                    }
+                }
+                answers2[i] = answ2;
+            }
+            else
+            {
+                
+                answers2[i] = GlobalVariables.answer2;
+                
+                GlobalVariables.isAnswer = true;
+            }
+        }
+        //shuffle(answers);
+    }
     public void shuffle(int[] array)
     {
         for (int i = array.Length - 1; i > 0; i--)
@@ -179,6 +279,7 @@ public class BubbleSpawner : TaskGenerating
     }
     IEnumerator SpawnBubbles()
     {
+        Debug.Log("SpawnBubbles");
         for (int i = 0; i < GlobalVariables.difficulty; i++)
         {
             yield return 
@@ -186,7 +287,15 @@ public class BubbleSpawner : TaskGenerating
             randomIndex = Random.Range(0, bubbleReference.Length);
             randomSide = Random.Range(0, 2);
 
-            randomAnswer = answers[i];
+
+            if (GlobalVariables.gameId == 3)
+            {
+                randomAnswer = answers2[i];
+                
+            } else
+            {
+                randomAnswer = answers[i].ToString();
+            }
 
 
             // spawnina burbulus
@@ -203,7 +312,7 @@ public class BubbleSpawner : TaskGenerating
                 GameObject answerComponent = spawnedBubble.transform.GetChild(0).gameObject;
 
                 Text answer = answerComponent.GetComponent<Text>();
-                answer.text = randomAnswer.ToString();
+                answer.text = randomAnswer;
 
                 spawnedBubble.transform.position = new Vector3(leftPos.position.x, leftPos.position.y, leftPos.position.z);
                 spawnedBubble.transform.localScale = new Vector3(60, 60, 60);
@@ -213,7 +322,7 @@ public class BubbleSpawner : TaskGenerating
                 GameObject answerComponent = spawnedBubble.transform.GetChild(0).gameObject;
 
                 Text answer = answerComponent.GetComponent<Text>();
-                answer.text = randomAnswer.ToString();
+                answer.text = randomAnswer;
 
                 spawnedBubble.transform.position = new Vector3(rightPos.position.x, rightPos.position.y, rightPos.position.z);
                 spawnedBubble.transform.localScale = new Vector3(60, 60, 60);
@@ -231,6 +340,9 @@ public class BubbleSpawner : TaskGenerating
             } else if(gameId == 2)
             {
                 myButton.onClick.AddListener((UnityEngine.Events.UnityAction)CheckAnswerForGame2);
+            } else if(gameId == 3)
+            {
+                myButton.onClick.AddListener((UnityEngine.Events.UnityAction)CheckAnswerForGame3);
             }
         }
     }

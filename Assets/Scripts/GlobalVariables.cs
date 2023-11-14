@@ -5,6 +5,10 @@ using UnityEngine;
 public class GlobalVariables : MonoBehaviour
 {
     public static double answer;
+    // answe2 for fractions
+    public static string answer2;
+    
+
     public static bool isAnswer;
 
     public static bool restart;
@@ -26,5 +30,8 @@ public class GlobalVariables : MonoBehaviour
 
     // LEVEL SETTINGS 
     public static int range = 25;
-
+    //lygio nustatymas pagal surinktus taškus
+    public static int lvl = 1;
+    //klases
+    public static int level = 1;
 }
