@@ -63,6 +63,9 @@ public class TaskGenerating : MonoBehaviour
         } else if(gameId == 3)
         {
             Game3();
+        } else if(gameId == 4)
+        {
+            Game4();
         }
     }
     public void DeleteBubbles()
@@ -204,7 +207,7 @@ public class TaskGenerating : MonoBehaviour
             }
         }
     }
-    public void CheckAnswerForGame3()
+    public void CheckAnswerForGame34()
     {
         // pasirinktas atsakymo onjektas
         GameObject button = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
@@ -234,11 +237,11 @@ public class TaskGenerating : MonoBehaviour
 
             score.text = newScore.ToString();
 
-            ////padidina burbulu kieki zaidime
-            //if (newScore % 50 == 0 && (3 + newScore / 50) < 11)
-            //{
-            //    GlobalVariables.difficulty = 3 + newScore / 50;
-            //}
+            //padidina burbulu kieki zaidime
+            if ((newScore % 50 == 0 && (3 + newScore / 50) < 11) && GlobalVariables.difficulty < 9)
+            {
+                GlobalVariables.difficulty = 3 + newScore / 50;
+            }
 
             DeleteBubbles();
             GameStart();
@@ -268,6 +271,7 @@ public class TaskGenerating : MonoBehaviour
             }
         }
     }
+    
     public void Game1()
     {
     
@@ -362,7 +366,7 @@ public class TaskGenerating : MonoBehaviour
         {
             int randomCondition;
 
-            randomCondition = UnityEngine.Random.Range(0, 10);
+            randomCondition = UnityEngine.Random.Range(0, 12);
 
             switch (randomCondition)
             {
@@ -402,6 +406,14 @@ public class TaskGenerating : MonoBehaviour
                     t = "Viena dešimtoji = ?";
                     GlobalVariables.answer2 = "1/10";
                     break;
+                case 10:
+                    t = "1/2 + 1/2 = ?";
+                    GlobalVariables.answer2 = "1";
+                    break;
+                case 11:
+                    t = "1/3 + 1/3 + 1/3 = ?";
+                    GlobalVariables.answer2 = "1";
+                    break;
 
             }
 
@@ -414,4 +426,143 @@ public class TaskGenerating : MonoBehaviour
         task.text = t;
 
     }
+    public void Game4()
+    {
+        if (GlobalVariables.level == 1)
+        {
+            GlobalVariables.randomUnit = 0;
+            // cm - m/cnt - eur/ kg
+
+
+            GlobalVariables.randomUnit = UnityEngine.Random.Range(0, 3);
+            
+            
+
+            switch (GlobalVariables.randomUnit)
+            {
+                // centimetrai ir metrai
+                case 0:
+                    int num1 = UnityEngine.Random.Range(0, 10);
+                    int num2 = UnityEngine.Random.Range(0, 10);
+                    int sal = UnityEngine.Random.Range(0, 2);
+
+                    switch(sal)
+                    {
+                        case 0:
+                            t = "Vienas daiktas(x) yra " + num1.ToString() + " cm. ilgio, o kitas(y) " + num2.ToString() + " cm. ilgesnis. y = ?";
+                            GlobalVariables.answer2 = (num1 + num2).ToString() + "cm";
+                            break;
+                        case 1:
+                            t = "Vienas daiktas(x) yra " + num1.ToString() + " cm. ilgio, o kitas(y) " + num2.ToString() + " cm. trumpesnis. y = ?";
+                            GlobalVariables.answer2 = (num1 - num2).ToString() + "cm";
+                            break;
+                    }
+                    
+                    break;
+
+                //eurai
+                case 1:
+                    t = "";
+                    int[] skc = { 1, 2, 5, 10, 20, 50, 100 };
+
+                    int tskc = 0;
+                    
+                    int cnt = 0;
+                    int eur = 0;
+
+                    while(tskc < 3)
+                    {
+                        sal = UnityEngine.Random.Range(0, 1);
+
+                        if(tskc < 2)
+                        {
+                            if (sal == 0)
+                            {
+                                num1 = UnityEngine.Random.Range(0, 6);
+                                t = t + skc[num1].ToString() + "cnt. +";
+                                cnt += skc[num1];
+                                tskc++;
+                            }
+                            else
+                            {
+                                t = t + " 1 eur. +";
+                                eur += 1;
+                                    tskc++;
+                            }
+                        } else
+                        {
+                            if (sal == 0)
+                            {
+                                num1 = UnityEngine.Random.Range(0, 6);
+                                t = t + skc[num1].ToString() + " cnt = ?";
+                                cnt += skc[num1];
+                                tskc++;
+                            }
+                            else
+                            {
+                                t = t + " 1 eur = ?";
+                                eur += 1;
+                                tskc++;
+                            }
+                        }
+                    }
+
+                    eur = eur + cnt / 100;
+                    cnt = cnt - eur * 100;
+                    string cntCorrected;
+                    if (cnt < 10)
+                    {
+                        cntCorrected = "0" + cnt.ToString();
+                    } else
+                    {
+                        cntCorrected = cnt.ToString();
+                    }
+                    if (eur != 0)
+                    {
+                        GlobalVariables.answer2 = eur.ToString() + "." + (cnt % 100).ToString() + "eur";
+                    } else
+                    {
+                        GlobalVariables.answer2 = eur.ToString() + "." + cntCorrected + "eur";
+                    }
+
+                    break;
+
+                case 2:
+                    t = "";
+                    int kg; 
+                    tskc = 0;
+                    int kgansw = 0;
+                    while (tskc < 3)
+                    { 
+                        if (tskc < 2)
+                        {
+                            kg = UnityEngine.Random.Range(1, 10);
+                            kgansw += kg;
+                            t = t + kg.ToString() + "kg. + ";
+                            tskc++;
+                        }
+                        else
+                        {
+                            kg = UnityEngine.Random.Range(1, 10);
+                            kgansw += kg;
+                            tskc++;
+                            t = t + kg.ToString() + "kg. = ?";
+                        }
+                    }
+
+                    GlobalVariables.answer2 = kgansw.ToString() + "kg";
+
+                    break;
+            }
+
+            Debug.Log("answer2 == " + GlobalVariables.answer2);
+        }
+
+        // isvedamas uzdavinys i ekrana
+        TaskField = GameObject.Find("Task");
+        Text task = TaskField.GetComponent<Text>();
+        task.text = t;
+
+    }
+
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class GlobalVariables : MonoBehaviour
 {
     public static double answer;
-    // answe2 for fractions
+    // answe2 for answers with string.
     public static string answer2;
     
 
@@ -24,8 +24,14 @@ public class GlobalVariables : MonoBehaviour
     
     public static int gameId = 1;
 
+
     //forGame2
     public static int sign = 0;
+
+
+    //forGame4
+    public static int randomUnit;
+
 
 
     // LEVEL SETTINGS 

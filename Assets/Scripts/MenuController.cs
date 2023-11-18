@@ -21,10 +21,7 @@ public class MenuController : MonoBehaviour
         if(GlobalVariables.level == 1)
         {
             //isjungia sunkesnius zaidimus nei sudetis ir palyginimai/// pirmai klasei
-            for (int i = 3; i <= 4; i++)
-            {
-                GameObject.Find(i.ToString()).SetActive(false);
-            }
+            GameObject.Find("3").SetActive(false);
         }
     }
     public void Play()

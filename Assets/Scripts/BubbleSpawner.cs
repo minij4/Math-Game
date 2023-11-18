@@ -52,6 +52,9 @@ public class BubbleSpawner : TaskGenerating
         } else if(gameId == 3)
         {
             generateAnswersForGame3();
+        } else if(gameId == 4)
+        {
+            generateAnswersForGame4();
         }
 
         bubbleSpawnCoroutine = SpawnBubbles();
@@ -183,44 +186,9 @@ public class BubbleSpawner : TaskGenerating
             //generuojamas atsitiktinis atsakymu masyvas
             if (GlobalVariables.isAnswer)
             {
-                int rand = Random.Range(0, 10);
-
-                switch(rand)
+                do
                 {
-                    case 0:
-                        answ2 = "1/2";
-                    break;
-                    case 1:
-                        answ2 = "1/3";
-                        break;
-                    case 2:
-                        answ2 = "1/4";
-                        break;
-                    case 3:
-                        answ2 = "1";
-                        break;
-                    case 4:
-                        answ2 = "1/5";
-                        break;
-                    case 5:
-                        answ2 = "1/6";
-                        break;
-                    case 6:
-                        answ2 = "1/7";
-                        break;
-                    case 7:
-                        answ2 = "1/8";
-                        break;
-                    case 8:
-                        answ2 = "1/9";
-                        break;
-                    case 9:
-                        answ2 = "1/10";
-                        break;
-                }
-                while (answers2.Contains(answ2))
-                {
-                    rand = Random.Range(0, 10);
+                    int rand = Random.Range(0, 10);
                     switch (rand)
                     {
                         case 0:
@@ -254,14 +222,68 @@ public class BubbleSpawner : TaskGenerating
                             answ2 = "1/10";
                             break;
                     }
-                }
+                } while (answers2.Contains(answ2));
+
                 answers2[i] = answ2;
             }
             else
             {
-                
                 answers2[i] = GlobalVariables.answer2;
                 
+                GlobalVariables.isAnswer = true;
+            }
+        }
+        //shuffle(answers);
+    }
+    public void generateAnswersForGame4()
+    {
+        Debug.Log("generating answers");
+
+        for (int i = 0; i < GlobalVariables.difficulty; i++)
+        {
+            string answ2 = "";
+            //tikrinimas ar yra ekrane teisingas atsakymas
+            //generuojamas atsitiktinis atsakymu masyvas
+            if (GlobalVariables.isAnswer)
+            {
+                do
+                {
+                    switch (GlobalVariables.randomUnit)
+                    {
+                        case 0:
+                            answ2 = Random.Range(1, 20).ToString() + "cm";
+                            break;
+                        case 1:
+                            int cnt = Random.Range(1, 99);
+                            int eur = Random.Range(0, 3);
+
+                            string cntCorrected;
+                            if (cnt < 10)
+                            {
+                                cntCorrected = "0" + cnt.ToString();
+                            }
+                            else
+                            {
+                                cntCorrected = cnt.ToString();
+                            }
+
+                            answ2 = eur.ToString() + "." + cntCorrected + "eur";
+
+                           
+                            break;
+                        case 2:
+                            answ2 = Random.Range(1, 30).ToString() + "kg";
+                            break;
+                    }
+                } while (answers2.Contains(answ2));
+                
+                answers2[i] = answ2;
+            }
+            else
+            {
+                // įisveda tikraji atsakyma i ekrana
+                answers2[i] = GlobalVariables.answer2;
+
                 GlobalVariables.isAnswer = true;
             }
         }
@@ -288,7 +310,9 @@ public class BubbleSpawner : TaskGenerating
             randomSide = Random.Range(0, 2);
 
 
-            if (GlobalVariables.gameId == 3)
+
+            //// PATAISOMA JEIGU ŽAIDIMAS TURI STRING ATSAKYMUOSE
+            if (GlobalVariables.gameId == 3 || GlobalVariables.gameId == 4)
             {
                 randomAnswer = answers2[i];
                 
@@ -337,12 +361,18 @@ public class BubbleSpawner : TaskGenerating
             if (gameId == 1)
             {
                 myButton.onClick.AddListener((UnityEngine.Events.UnityAction)CheckAnswerForGame1);
-            } else if(gameId == 2)
+            }
+            else if (gameId == 2)
             {
                 myButton.onClick.AddListener((UnityEngine.Events.UnityAction)CheckAnswerForGame2);
-            } else if(gameId == 3)
+            }
+            else if (gameId == 3)
             {
-                myButton.onClick.AddListener((UnityEngine.Events.UnityAction)CheckAnswerForGame3);
+                myButton.onClick.AddListener((UnityEngine.Events.UnityAction)CheckAnswerForGame34);
+            }
+            else if (gameId == 4)
+            {
+                myButton.onClick.AddListener((UnityEngine.Events.UnityAction)CheckAnswerForGame34);
             }
         }
     }
