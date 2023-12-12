@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Hearts : MonoBehaviour
 {
@@ -28,6 +29,19 @@ public class Hearts : MonoBehaviour
             anim.SetBool("threeH", true);
             anim.SetBool("oneH", false);
             anim.SetBool("twoH", false);
+        }
+    }
+    public void decrease()
+    {
+        //hearts
+        if (GlobalVariables.hearts > 1)
+        {
+            GlobalVariables.hearts--;
+        }
+        else
+        {
+            GlobalVariables.difficulty = 3;
+            SceneManager.LoadScene("GameOver");
         }
     }
 }

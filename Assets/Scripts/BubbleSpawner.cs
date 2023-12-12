@@ -1,12 +1,15 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Net.Sockets;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Random=UnityEngine.Random;
 
 public class BubbleSpawner : TaskGenerating
 {
@@ -78,23 +81,12 @@ public class BubbleSpawner : TaskGenerating
             //generuojamas atsitiktinis atsakymu masyvas
             if (GlobalVariables.isAnswer)
             {
-                int diff = Random.Range(0, 10);
-                int sign = Random.Range(0, 2);
                 int answ = 0;
+                while (answ <= 0)
+                {
+                    int diff = Random.Range(0, 10);
+                    int sign = Random.Range(0, 2);
 
-                if (sign == 0)
-                {
-                    answ = (int)GlobalVariables.answer + diff;
-                }
-                else if (sign == 1)
-                {
-                    answ = (int)GlobalVariables.answer - diff;
-                } 
-                // tikrinimas kad nesikartotu vienodi atsakymai
-                while (answers.Contains(answ))
-                {
-                    diff = Random.Range(0, 10);
-                    sign = Random.Range(0, 2);
 
                     if (sign == 0)
                     {
@@ -102,11 +94,25 @@ public class BubbleSpawner : TaskGenerating
                     }
                     else if (sign == 1)
                     {
-                        answ = (int)GlobalVariables.answer - diff;
+                        answ = (int)GlobalVariables.answer - diff;  
                     }
-                }
-                answers[i] = answ;
+                    // tikrinimas kad nesikartotu vienodi atsakymai
+                    while (answers.Contains(answ))
+                    {
+                        diff = Random.Range(0, 10);
+                        sign = Random.Range(0, 2);
 
+                        if (sign == 0)
+                        {
+                            answ = (int)GlobalVariables.answer + diff;
+                        }
+                        else if (sign == 1)
+                        {
+                            answ = (int)GlobalVariables.answer - diff;
+                        }
+                    }
+                    answers[i] = answ;
+                }
             }
             else
             {
@@ -115,56 +121,58 @@ public class BubbleSpawner : TaskGenerating
                 
                GlobalVariables.isAnswer = true;
             }
+
         }
         shuffle(answers);
     }
     public void generateAnswersForGame2()
     {
+
         bool biggerAnsw = false;
         bool lowerAnsw = false;
-        bool equalAnsw = false;
 
         for (int i = 0; i < GlobalVariables.difficulty; i++)
         {
             //tikrinimas ar yra ekrane teisingas atsakymas
             //generuojamas atsitiktinis atsakymu masyvas
+           
+
             if (GlobalVariables.isAnswer)
             {
-                int diff = Random.Range(0, 10);
-                int sign = GlobalVariables.sign;
                 int answ = 0;
 
-                if (lowerAnsw == false)
-                {
-                    answ = (int)GlobalVariables.answer - diff;
-                    lowerAnsw = true;
-                }
-                else if (biggerAnsw == false)
-                {
-                    answ = (int)GlobalVariables.answer + diff;
-                    biggerAnsw = true;
-                } else if(equalAnsw == false)
-                {
-                    answ = (int)GlobalVariables.answer;
-                    equalAnsw = true;
-                }
-                // tikrinimas kad nesikartotu vienodi atsakymai
-                while (answers.Contains(answ))
-                {
-                    diff = Random.Range(0, 10);
-                    sign = Random.Range(0, 2);
+                    int diff = Random.Range(0, 10);
+                    int sign = GlobalVariables.sign;
 
-                    if (sign == 0)
-                    {
-                        answ = (int)GlobalVariables.answer + diff;
-                    }
-                    else if (sign == 1)
+
+                    if (i == 1)
                     {
                         answ = (int)GlobalVariables.answer - diff;
+                        
                     }
-                }
-                answers[i] = answ;
+                    else if (i == 2)
+                    {
+                        answ = (int)GlobalVariables.answer + diff;
+                        
+                    }
+                    // tikrinimas kad nesikartotu vienodi atsakymai
+                    while (answers.Contains(answ))
+                    {
+                        diff = Random.Range(0, 10);
 
+                        if (i == 1)
+                        {
+                            answ = (int)GlobalVariables.answer - diff;
+
+                        }
+                        else if (i == 2)
+                        {
+                            answ = (int)GlobalVariables.answer + diff;
+
+                        }
+                    }
+                    answers[i] = answ;
+                
             }
             else
             {
@@ -178,61 +186,95 @@ public class BubbleSpawner : TaskGenerating
     }
     public void generateAnswersForGame3()
     {
+
         Debug.Log("generating answers");
         for (int i = 0; i < GlobalVariables.difficulty; i++)
         {
-            string answ2="";
+
+            string answ2 = "";
             //tikrinimas ar yra ekrane teisingas atsakymas
             //generuojamas atsitiktinis atsakymu masyvas
-            if (GlobalVariables.isAnswer)
-            {
-                do
-                {
-                    int rand = Random.Range(0, 10);
-                    switch (rand)
-                    {
-                        case 0:
-                            answ2 = "1/2";
-                            break;
-                        case 1:
-                            answ2 = "1/3";
-                            break;
-                        case 2:
-                            answ2 = "1/4";
-                            break;
-                        case 3:
-                            answ2 = "1";
-                            break;
-                        case 4:
-                            answ2 = "1/5";
-                            break;
-                        case 5:
-                            answ2 = "1/6";
-                            break;
-                        case 6:
-                            answ2 = "1/7";
-                            break;
-                        case 7:
-                            answ2 = "1/8";
-                            break;
-                        case 8:
-                            answ2 = "1/9";
-                            break;
-                        case 9:
-                            answ2 = "1/10";
-                            break;
-                    }
-                } while (answers2.Contains(answ2));
 
-                answers2[i] = answ2;
-            }
-            else
+            //
+            if (GlobalVariables.level == 2)
             {
-                answers2[i] = GlobalVariables.answer2;
-                
-                GlobalVariables.isAnswer = true;
+                if (GlobalVariables.isAnswer)
+                {
+                    do
+                    {
+                        int rand = Random.Range(0, 10);
+                        switch (rand)
+                        {
+                            case 0:
+                                answ2 = "1/2";
+                                break;
+                            case 1:
+                                answ2 = "1/3";
+                                break;
+                            case 2:
+                                answ2 = "1/4";
+                                break;
+                            case 3:
+                                answ2 = "1";
+                                break;
+                            case 4:
+                                answ2 = "1/5";
+                                break;
+                            case 5:
+                                answ2 = "1/6";
+                                break;
+                            case 6:
+                                answ2 = "1/7";
+                                break;
+                            case 7:
+                                answ2 = "1/8";
+                                break;
+                            case 8:
+                                answ2 = "1/9";
+                                break;
+                            case 9:
+                                answ2 = "1/10";
+                                break;
+                        }
+                    } while (answers2.Contains(answ2));
+
+                    answers2[i] = answ2;
+                }
+                else
+                {
+                    answers2[i] = GlobalVariables.answer2;
+
+                    GlobalVariables.isAnswer = true;
+                }
+
             }
+            else if (GlobalVariables.level == 3 || GlobalVariables.level == 4)
+            {
+                int cel = Random.Range(1, 10);
+                int flor = Random.Range(1, 10);
+                answ2 = cel.ToString() + "/" + flor.ToString();
+                if (GlobalVariables.isAnswer)
+                {
+                    while (answers2.Contains(answ2) || (cel > flor))
+                    {
+                        cel = Random.Range(1, 10);
+                        flor = Random.Range(1, 10);
+                        answ2 = cel.ToString() + "/" + flor.ToString();
+                    }
+
+                    answers2[i] = answ2;
+                }
+                else
+                {
+                    answers2[i] = GlobalVariables.answer2;
+
+                    GlobalVariables.isAnswer = true;
+                }
+            }
+
         }
+
+
         //shuffle(answers);
     }
     public void generateAnswersForGame4()
@@ -273,6 +315,61 @@ public class BubbleSpawner : TaskGenerating
                             break;
                         case 2:
                             answ2 = Random.Range(1, 30).ToString() + "kg";
+                            break;
+                        case 3:
+                            if(GlobalVariables.temp == 0)
+                            {
+                                answ2 = Random.Range(10, 50).ToString() + "°C";
+                            } else if(GlobalVariables.temp == 1)
+                            {
+                                int tempRandom = Random.Range(0, 2);
+                                if(tempRandom == 0)
+                                {
+                                    answ2 = Random.Range(-20, 10).ToString() + "°C";
+                                } else if(tempRandom == 1)
+                                {
+                                    answ2 = Random.Range(30, 50).ToString() + "°C";
+                                }
+
+                            }
+                            else if (GlobalVariables.temp == 2)
+                            {
+                                answ2 = Random.Range(-20, 30).ToString() + "°C";
+                            }
+
+                            break;
+                        case 4:
+                            answ2 = Random.Range(1, 30).ToString() + "l";
+                            break;
+                        case 5:
+                            int kg = Random.Range(1, 10);
+                            int g = Random.Range(1, 1000);
+
+                            // 1kg 058 g
+                            // 1kg 558 g
+                            if (g < 100)
+                            {
+                                answ2 = kg.ToString() + "0" + g.ToString() + "g";
+                            }
+                            else
+                            {
+                                answ2 = kg.ToString() + g.ToString() + "g";
+                            }
+                            break;
+                        case 6:
+                            int km = Random.Range(1, 10);
+                            int m = Random.Range(1, 1000);
+
+                            // 1kg 058 g
+                            // 1kg 558 g
+                            if (m < 100)
+                            {
+                                answ2 = km.ToString() + "0" + m.ToString() + "m";
+                            }
+                            else
+                            {
+                                answ2 = km.ToString() + m.ToString() + "m";
+                            }
                             break;
                     }
                 } while (answers2.Contains(answ2));

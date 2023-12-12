@@ -25,8 +25,12 @@ public class MainMenuController : MonoBehaviour
 
         anim.SetBool("explode", true);
     }
-    public void LoadMenuScene()
+    public void LoadRestart()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("LevelScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex -3);
+    }
+    public void LoadLevelScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

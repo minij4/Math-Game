@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+
 public class LevelSettings : MonoBehaviour
 {
     // Start is called before the first frame update
-    private GameObject Button;
     private Animator anim;
 
     // 
@@ -16,42 +17,38 @@ public class LevelSettings : MonoBehaviour
     }
     public void load()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MenuScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     public void level1()
     {
-        
-        Button = GameObject.Find(EventSystem.current.currentSelectedGameObject.name);
-        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
-        anim = Button.GetComponent<Animator>();
+        anim = GameObject.Find("level 1")?.GetComponent<Animator>();
+
         GlobalVariables.range = 9;
         GlobalVariables.level = 1;
+
         PlayGame();
 
     }
     public void level2()
     {
-        Button = GameObject.Find(EventSystem.current.currentSelectedGameObject.name);
+        anim = GameObject.Find("level 2")?.GetComponent<Animator>();
 
-        anim = Button.GetComponent<Animator>();
         GlobalVariables.range = 100;
         GlobalVariables.level = 2;
         PlayGame();
     }
     public void level3()
     {
-        Button = GameObject.Find(EventSystem.current.currentSelectedGameObject.name);
+        anim = GameObject.Find("level 3")?.GetComponent<Animator>();
 
-        anim = Button.GetComponent<Animator>();
         GlobalVariables.range = 1000;
         GlobalVariables.level = 3;
         PlayGame();
     }
     public void level4()
     {
-        Button = GameObject.Find(EventSystem.current.currentSelectedGameObject.name);
-
-        anim = Button.GetComponent<Animator>();
+        //anim = GameObject.Find(EventSystem.current.currentSelectedGameObject.name)?.GetComponent<Animator>();
+        anim = GameObject.Find("level 4")?.GetComponent<Animator>();
         GlobalVariables.range = 10000;
         GlobalVariables.level = 4 ;
         PlayGame();

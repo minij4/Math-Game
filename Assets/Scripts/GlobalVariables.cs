@@ -36,8 +36,12 @@ public class GlobalVariables : MonoBehaviour
 
     // LEVEL SETTINGS 
     public static int range = 25;
-    //lygio nustatymas pagal surinktus taškus
+    //lygio nustatymas pagal surinktus taskus
     public static int lvl = 1;
     //klases
     public static int level = 1;
+
+
+    //temperaturu uzduoxiai
+    public static int temp = 0;
 }
